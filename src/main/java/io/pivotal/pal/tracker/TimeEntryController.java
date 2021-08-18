@@ -21,11 +21,7 @@ public class TimeEntryController {
 
     @DeleteMapping("/time-entries/{timeEntryId}")
     public ResponseEntity<Void> delete(@PathVariable  long timeEntryId) {
-      /*  TimeEntry timeEntry = timeEntryRepository.find(timeEntryId);
-        if(timeEntry == null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }*/
-        timeEntryRepository.delete(timeEntryId);
+         timeEntryRepository.delete(timeEntryId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -47,9 +43,6 @@ public class TimeEntryController {
     @GetMapping("/time-entries")
     public ResponseEntity<List<TimeEntry>> list() {
         List<TimeEntry> timeEntries = timeEntryRepository.list();
-        if (timeEntries.isEmpty()) {
-            return new ResponseEntity<>(timeEntries, HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(timeEntries, HttpStatus.OK);
     }
 
