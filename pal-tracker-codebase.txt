@@ -1,1 +1,34 @@
 pal-tracker codebase
+
+
+cf target
+cf apps -v
+cf push  pal-tracker --no-start -p pal-tracker.jar --no-manifest
+cf push -f manifest.yml
+cf set-env pal-tracker JBP_CONFIG_OPEN_JDK_JRE '{ jre: { version: 11.+ } }'
+cf start pal-tracker
+cf restage pal-tracker
+
+cf ssh pal-tracker
+env | more
+
+
+cf create-service p.mysql db-small tracker-database
+
+
+cf create-service p.mysql db-small tracker-allocations-database
+cf create-service p.mysql db-small tracker-database
+cf create-service p.mysql db-small tracker-database
+cf create-service p.mysql db-small tracker-database
+
+cf service tracker-database
+watch cf services
+
+./gradlew cloudNativeDeveloperReviewPipeline -PreviewUrl=https://pal-tracker-mohan.apps.evans.pal.pivotal.io 
+./gradlew cloudNativeDeveloperRest -PserverUrl=http://pal-tracker-mohan.apps.evans.pal.pivotal.io
+./gradlew cloudNativeDeveloperDatabaseMigrations -PserverUrl=https://pal-tracker-mohan.apps.evans.pal.pivotal.io
+./gradlew cloudNativeDeveloperDatabaseAccess -PserverUrl=https://pal-tracker-mohan.apps.evans.pal.pivotal.io
+./gradlew cloudNativeDeveloperHealthMonitoring -PserverUrl=http://pal-tracker-mohan.apps.evans.pal.pivotal.io/actuator
+./gradlew cloudNativeDeveloperScaling -PserverUrl=https://pal-tracker-mohan.apps.evans.pal.pivotal.io
+./gradlew cloudNativeDeveloperDistributedSystemDeployment -PregistrationServerUrl=https://registration-pal-mohan.apps.evans.pal.pivotal.io -PbacklogServerUrl=https://backlog-pal-mohan.apps.evans.pal.pivotal.io -PallocationsServerUrl=https://allocations-pal-mohan.apps.evans.pal.pivotal.io -PtimesheetsServerUrl=https://timesheets-pal-mohan.apps.evans.pal.pivotal.io
+
